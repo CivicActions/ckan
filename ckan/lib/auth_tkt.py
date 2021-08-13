@@ -41,7 +41,8 @@ def make_plugin(secret=None,
                 include_ip=False,
                 timeout=None,
                 reissue_time=None,
-                userid_checker=None):
+                userid_checker=None,
+                samesite=None):
     from repoze.who.utils import resolveDotted
 
     # ckan specifics:
@@ -83,5 +84,6 @@ def make_plugin(secret=None,
                                      _bool(include_ip),
                                      timeout,
                                      reissue_time,
-                                     userid_checker)
+                                     userid_checker,
+                                     samesite)
     return plugin
