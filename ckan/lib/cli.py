@@ -23,6 +23,7 @@ from six.moves.urllib.parse import urljoin, urlparse
 from six.moves.urllib.request import urlopen
 
 import sqlalchemy as sa
+
 import routes
 import paste.script
 from paste.registry import Registry
@@ -36,7 +37,8 @@ import ckan.include.rjsmin as rjsmin
 import ckan.include.rcssmin as rcssmin
 import ckan.plugins as p
 from ckan.common import config
-
+# The following line was added as per OD-1021 10/7/21
+from paste.deploy.converters import asbool
 # This is a test Flask request context to be used internally.
 # Do not use it!
 _cli_test_request_context = None
@@ -110,6 +112,9 @@ def user_add(args):
     for arg in args[1:]:
         try:
             field, value = arg.split('=', 1)
+            # The following 2 lines were added as per OD-1021 10/7/21
+            if field == 'sysadmin':
+                value = asbool(value)
             data_dict[field] = value
         except ValueError:
             raise ValueError(
