@@ -512,9 +512,17 @@ left arrow <
         user_ref = name
         assert user_ref
         for k, v in user_dict.items():
-            if v:
-                # avoid unicode warnings
-                user_dict[k] = text_type(v)
+            # Removed as per OD-1021 10/8/21
+            #if v:
+            #    # avoid unicode warnings
+            #    user_dict[k] = text_type(v)
+            # The following 6 lines were added as per OD-1021 10/8/21
+            if v is not None:
+                if bool(v):
+                    user_dict[k] = v
+                else:
+                    # avoid unicode warnings
+                    user_dict[k] = text_type(v)
         user = model.User(name=text_type(name), **user_dict)
         model.Session.add(user)
         cls.user_refs.append(user_ref)

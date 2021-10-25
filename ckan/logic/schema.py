@@ -394,7 +394,10 @@ def default_user_schema(
         ignore_missing, unicode_safe, name_validator, user_name_validator,
         user_password_validator, user_password_not_empty,
         ignore_not_sysadmin, not_empty, email_validator,
-        user_about_validator, ignore):
+        # Added the following line as per OD-1021 10/8/21
+        user_about_validator, ignore, boolean_validator):
+        # Removed the following line as per OD-1021 10/8/21
+        #user_about_validator, ignore):
     return {
         'id': [ignore_missing, unicode_safe],
         'name': [
@@ -409,7 +412,11 @@ def default_user_schema(
         'sysadmin': [ignore_missing, ignore_not_sysadmin],
         'apikey': [ignore],
         'reset_key': [ignore],
-        'activity_streams_email_notifications': [ignore_missing],
+        # Removed the following line as per OD-1021 10/8/21
+        #'activity_streams_email_notifications': [ignore_missing],
+        # Added the following 2 lines as per OD-1021 10/8/21
+        'activity_streams_email_notifications': [ignore_missing,
+                                                 boolean_validator],
         'state': [ignore_missing],
     }
 
